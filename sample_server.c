@@ -13,16 +13,17 @@ int fatal(unsigned char *message) {
   return -1;
 }
 
-int main(void) {
+int main() {
   int sockfd, new_sockfd;
   struct sockaddr_in host_addr, client_addr;
   socklen_t sin_size;
   int recv_length=1, yes=1;
   char buffer[1024];
 
+  printf("creating socket ...\n");
   /* create socket */
   if ((sockfd = socket(PF_INET, SOCK_STREAM, 0)) == -1)
-   fatal("in socket()");
+    fatal("in socket()");
 
   /* set socket options */
   if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
@@ -33,7 +34,7 @@ int main(void) {
   host_addr.sin_port = htons(PORT);  /* convert little endian(x86 processor on host) to big endian (network stream) */
   host_addr.sin_addr.s_addr = 0;     /* 0 denotes use local IP address */
   memset(&(host_addr.sin_zero), '\0', 8); /* zero the rest of the struct */
- 
+
   /* binding socket address to socket */
   if (bind(sockfd, (struct sockaddr *)&host_addr, sizeof(struct sockaddr)) == -1)
     fatal("binding to socket");
@@ -42,7 +43,9 @@ int main(void) {
   if (listen(sockfd, 5) == -1)
     fatal("listening on socket");
   
+  printf("echo server started ...\n");
   while(1) { /* Accept loop */
+    printf("next ...\n");
     sin_size =sizeof(struct sockaddr_in);
     /* accept the incomming data from bound socket address */
     new_sockfd = accept(sockfd, (struct sockaddr *)&client_addr, &sin_size); 
