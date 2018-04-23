@@ -103,6 +103,16 @@ void ProcessPacket(unsigned char* buffer, int size)
     printf(" TCP : %d - UDP : %d - ICMP : %d - IGMP : %d - others : %d | Totoal : %d\r", tcp, udp, icmp, igmp, others, total);
 }
 
+
+/*
+ *  Ethernet Header (RFC 894): 14 bytes:
+ *
+ *          6B             6B          2B
+ *  ----------------------------------------
+ *  |   dest addr   |  source addr  | type |
+ *  ----------------------------------------
+ *  
+ */
 void print_ethernet_header(unsigned char* buffer, int size)
 {
     struct ethhdr *eth = (struct ethhdr *)buffer;
@@ -114,6 +124,16 @@ void print_ethernet_header(unsigned char* buffer, int size)
     fprintf(logfile, "   |-Protocol                  : %u \n", (unsigned short)eth->h_proto);
 }
 
+/*
+ *  IP Header: 20 bytes:
+ *  0                                       15 16                               31
+ *  ------------------------------------------------------------------------------
+ *  |  4b ver  |4b hdr len|      8b TOS       |        16b total length          |
+ *  ------------------------------------------------------------------------------
+ *  |           16b identtification           | 3b flag |  13b fragmeent offset  |
+ *  ------------------------------------------------------------------------------
+ *  
+ */
 void print_ip_header(unsigned char* buffer, int size)
 {
     print_ethernet_header(buffer, size);
