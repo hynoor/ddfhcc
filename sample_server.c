@@ -7,18 +7,34 @@
 #include "utils.c"
 
 #define PORT 7890 // the port will be used for demo
+#define MAXSIZE 10240
 
 int fatal(unsigned char *message) {
   printf("Error occured: %s", message);
   return -1;
 }
 
+int fetch_dest_info(unsigned char *data, (sockaddr_in *)dest_addr) {
+}
+
+int forward_data(unsigned char* buffer) {
+  int sockfd;
+  struct sockaddr_in dest_addr;
+
+  if ((sockfd = socket(PF_INET, SOCK_STREAM, 0)) == -1)
+    fatal("in socket()");
+
+  if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
+    fatal("setting socket option SO_REUSEADDR");
+
+
+}
 int main() {
   int sockfd, new_sockfd;
   struct sockaddr_in host_addr, client_addr;
   socklen_t sin_size;
   int recv_length=1, yes=1;
-  char buffer[1024];
+  char buffer[10240];
 
   printf("creating socket ...\n");
   /* create socket */
