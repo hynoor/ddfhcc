@@ -14,11 +14,9 @@ int fatal(unsigned char *message) {
   return -1;
 }
 
-int fetch_dest_info(unsigned char *data, (sockaddr_in *)dest_addr) {
-}
-
 int forward_data(unsigned char* buffer) {
   int sockfd;
+  int yes = 1;
   struct sockaddr_in dest_addr;
 
   if ((sockfd = socket(PF_INET, SOCK_STREAM, 0)) == -1)
@@ -61,7 +59,6 @@ int main() {
   
   printf("echo server started ...\n");
   while(1) { /* Accept loop */
-    printf("next ...\n");
     sin_size =sizeof(struct sockaddr_in);
     /* accept the incomming data from bound socket address */
     new_sockfd = accept(sockfd, (struct sockaddr *)&client_addr, &sin_size); 
